@@ -12,11 +12,11 @@ namespace UnitTestDemoApplication.Controllers
     [ApiController]
     public class TodoController : ControllerBase
     {
-         private readonly ITodoService _service;
+        private readonly ITodoRepository _service;
 
-        public TodoController(ITodoService service)
+        public TodoController(ITodoRepository repository)
         {
-            _service = service;
+            _service = repository;
         }
 
         [HttpPost]

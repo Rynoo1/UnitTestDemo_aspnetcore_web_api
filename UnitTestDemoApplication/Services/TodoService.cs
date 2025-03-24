@@ -8,24 +8,23 @@ namespace UnitTestDemoApplication.Services;
 /// <summary>
 /// Service for managing todo items. Can add a new item, and get a specific item by id.
 /// </summary>
-public class TodoService : ITodoService
+public class TodoService
 {
-    private readonly AppDbContext _context;
+    private readonly ITodoRepository _repository;
 
-    public TodoService(AppDbContext context)
+    public TodoService(ITodoRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
-    public async Task<TodoItem?> GetByIdAsync(int id)
+    public async Task<TodoItem> AddTodoAsync(string title)
     {
-        return await _context.TodoItems.FindAsync(id);
+        var newItem = new TodoItem { Title = title, IsCompleted = false };
+        return await _repository.AddAsync(newItem);
     }
 
-    public async Task<TodoItem> AddAsync(TodoItem item)
+    public async Task<TodoItem?> GetTodoByIdAsync(int id)
     {
-        _context.TodoItems.Add(item);
-        await _context.SaveChangesAsync();
-        return item;
+        return await _repository.GetByIdAsync(id);
     }
 }
